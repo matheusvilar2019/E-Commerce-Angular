@@ -1,5 +1,5 @@
 <div class="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
-    <form #form="ngForm" (ngSubmit)="enviar(form)">
+    <form #form="ngForm" (ngSubmit)="submit(form)">
         <div class="space-y-12 mt-10">
             <!-- Personal Information -->
             <div class="border-b border-gray-900/10 pb-12">
@@ -14,7 +14,7 @@
                             <input type="text" name="nome" id="nome" autocomplete="name" ngModel required minlength="10"
                                 #nome="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && nome.invalid)">
+                            <div *ngIf="(formError && nome.invalid)">
                                 <small *ngIf="nome.errors?.['required']" class="text-[#BF1322]">Nome é
                                     obrigatório</small>
                                 <small *ngIf="nome.errors?.['minlength']" class="text-[#BF1322]">Mínimo 10
@@ -29,7 +29,7 @@
                             <input id="email" name="email" type="email" autocomplete="email" ngModel required
                                 minlength="10" #email="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && email.invalid)">
+                            <div *ngIf="(formError && email.invalid)">
                                 <small *ngIf="email.errors?.['required']" class="text-[#BF1322]">E-mail é
                                     obrigatório</small>
                                 <small *ngIf="email.errors?.['minlength']" class="text-[#BF1322]">Mínimo 10
@@ -44,13 +44,13 @@
                             <input id="senha" name="senha" type="password" autocomplete="senha" ngModel required
                                 [(ngModel)]="senha" minlength="6" #senhaInput="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && senhaInput.invalid)">
+                            <div *ngIf="(formError && senhaInput.invalid)">
                                 <small *ngIf="senhaInput.errors?.['required']" class="text-[#BF1322]">Senha é
                                     obrigatória</small>
                                 <small *ngIf="senhaInput.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
                                     caracteres</small>
                             </div>
-                            <div *ngIf="formEnviado && !senhasIguais && senhaInput.valid">
+                            <div *ngIf="formError && !senhasIguais && senhaInput.valid">
                                 <small class="text-[#BF1322]">As senhas não coincidem</small>
                             </div>
                         </div>
@@ -63,13 +63,13 @@
                             <input id="confirmaSenha" name="confirmaSenha" type="password" autocomplete="confirmaSenha"
                                 [(ngModel)]="confirmaSenha" ngModel required minlength="6" #confirmaSenhaInput="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="formEnviado && confirmaSenhaInput.invalid">
+                            <div *ngIf="formError && confirmaSenhaInput.invalid">
                                 <small *ngIf="confirmaSenhaInput.errors?.['required']" class="text-[#BF1322]">Confirmação da senha é
                                     obrigatória</small>
                                 <small *ngIf="confirmaSenhaInput.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
                                     caracteres</small>
                             </div>
-                            <div *ngIf="formEnviado && !senhasIguais && confirmaSenhaInput.valid">
+                            <div *ngIf="formError && !senhasIguais && confirmaSenhaInput.valid">
                                 <small class="text-[#BF1322]">As senhas não coincidem</small>
                             </div>
                         </div>
@@ -95,12 +95,12 @@
                     </div>
 
                     <div class="sm:col-span-2 sm:col-start-1">
-                        <label for="postal-code" class="block text-sm/6 font-medium text-gray-900">CEP</label>
+                        <label for="cep" class="block text-sm/6 font-medium text-gray-900">CEP</label>
                         <div class="mt-2">
-                            <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" ngModel
-                                required minlength="8" #cep="ngModel" (change)="consultaCep(cep.viewModel)"
+                            <input type="text" name="cep" id="cep" autocomplete="cep" ngModel
+                                required minlength="8" #cep="ngModel" (change)="cepData(cep.viewModel)"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && cep.invalid)">
+                            <div *ngIf="(formError && cep.invalid)">
                                 <small *ngIf="cep.errors?.['required']" class="text-[#BF1322]">CEP é
                                     obrigatório</small>
                                 <small *ngIf="cep.errors?.['minlength']" class="text-[#BF1322]">Mínimo 8
@@ -115,7 +115,7 @@
                             <input type="text" name="state" id="state" autocomplete="state" ngModel required [(ngModel)]="endereco.estado"
                                 minlength="6" #estado="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && estado.invalid)">
+                            <div *ngIf="(formError && estado.invalid)">
                                 <small *ngIf="estado.errors?.['required']" class="text-[#BF1322]">Estado é
                                     obrigatório</small>
                                 <small *ngIf="estado.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
@@ -130,7 +130,7 @@
                             <input type="text" name="city" id="city" autocomplete="address-level2" ngModel required [(ngModel)]="endereco.cidade"
                                 minlength="3" #cidade="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && cidade.invalid)">
+                            <div *ngIf="(formError && cidade.invalid)">
                                 <small *ngIf="cidade.errors?.['required']" class="text-[#BF1322]">Cidade é
                                     obrigatória</small>
                                 <small *ngIf="cidade.errors?.['minlength']" class="text-[#BF1322]">Mínimo 3
@@ -145,7 +145,7 @@
                             <input type="text" name="street-address" id="street-address" autocomplete="street-address"
                                 ngModel required minlength="6" #logradouro="ngModel" [(ngModel)]="endereco.logradouro"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && logradouro.invalid)">
+                            <div *ngIf="(formError && logradouro.invalid)">
                                 <small *ngIf="logradouro.errors?.['required']" class="text-[#BF1322]">Logradouro é
                                     obrigatório</small>
                                 <small *ngIf="logradouro.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
@@ -160,7 +160,7 @@
                             <input type="text" name="bairro" id="bairro" autocomplete="bairro"
                                 ngModel required minlength="3" #bairro="ngModel" [(ngModel)]="endereco.bairro"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formEnviado && bairro.invalid)">
+                            <div *ngIf="(formError && bairro.invalid)">
                                 <small *ngIf="bairro.errors?.['required']" class="text-[#BF1322]">Bairro é
                                     obrigatório</small>
                                 <small *ngIf="bairro.errors?.['minlength']" class="text-[#BF1322]">Mínimo 3

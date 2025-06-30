@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { empty } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { ViaCepService } from 'src/app/services/via-cep.service';
 
 @Component({
@@ -11,7 +13,8 @@ import { ViaCepService } from 'src/app/services/via-cep.service';
   styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
-  formEnviado = false;
+  formError = false;
+  signupError = false;
   senha = '';
   confirmaSenha = '';
   senhasIguais = false;
@@ -22,26 +25,53 @@ export class SignUpComponent {
     logradouro: ''
   };
 
-  constructor(private viaCepService: ViaCepService) {}
+  constructor(private viaCepService: ViaCepService, private authService: AuthService) { }
 
-  enviar(form: any){
-    this.formEnviado = true;
-
-    console.log(this.senha)
-
-    if(form.valid && this.senhaValida()) {
-      console.log('Formulario OK');
-      this.formEnviado = false;
-    } 
-    else {
-      console.log('Formulário inválido');
-    }
+  submit(form: any) {
+    console.log(form.value)
+    if (!this.validForm(form)) return;
+    this.createAccount(form);
   }
 
-  consultaCep(cep: any) {
+  createAccount(form: any) {    
+    var accountData = {
+      name: form.value.nome,
+      email: form.value.email,
+      password: form.value.senha,
+      cpf: '12312312300',
+      cep: form.value.cep,
+      address: form.value["street-address"]
+    }
+
+    console.log("Account Data:")
+    console.log(accountData);
+
+    this.authService.createAccount(accountData).subscribe(
+      (data) => {
+        console.log("Usuário criado com sucesso");
+        this.signIn(accountData);
+      },
+      (error) => {
+        console.error("Ocorreu um erro ao criar a conta", error);
+      }
+    );
+  }  
+
+  signIn(accountData: any) {
+    this.authService.login({email: accountData.email, password: accountData.password}).subscribe(
+      (data) => {
+        console.log('Token:', data.data);
+        localStorage.setItem('token', data.data);
+      },
+      (error) => {
+        console.error("Ocorreu um erro ao logar", error);
+      }
+    );
+  }
+
+  cepData(cep: any) {
     this.viaCepService.getAdress(String(cep)).subscribe(
       (data) => {
-        console.log(data);
         this.endereco.logradouro = data.logradouro
         this.endereco.bairro = data.bairro;
         this.endereco.cidade = data.localidade;
@@ -53,10 +83,21 @@ export class SignUpComponent {
     )
   }
 
-  senhaValida() {
+  validForm(form: any): boolean {
+    if (form.valid) {
+      this.formError = false;
+      return true;
+    } else {
+      console.log("Form inválido")
+      this.formError = true;
+      return false;
+    }
+  }
+
+  validPassword() {
     if (this.senha === this.confirmaSenha) {
       return this.senhasIguais = true;
-    } 
+    }
     else {
       return this.senhasIguais = false;
     }
