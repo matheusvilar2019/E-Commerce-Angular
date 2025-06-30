@@ -41,7 +41,7 @@
                     <div class="sm:col-span-3">
                         <label for="senha" class="block text-sm/6 font-medium text-gray-900">Senha</label>
                         <div class="mt-2">
-                            <input id="senha" name="senha" type="password" autocomplete="senha" ngModel required
+                            <input id="senha" name="senha" type="password" autocomplete="senha" ngModel required (change)="validPassword()"
                                 [(ngModel)]="senha" minlength="6" #senhaInput="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && senhaInput.invalid)">
@@ -50,7 +50,7 @@
                                 <small *ngIf="senhaInput.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
                                     caracteres</small>
                             </div>
-                            <div *ngIf="formError && !senhasIguais && senhaInput.valid">
+                            <div *ngIf="!senhasIguais">
                                 <small class="text-[#BF1322]">As senhas não coincidem</small>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         <label for="confirmaSenha" class="block text-sm/6 font-medium text-gray-900">Confirme a
                             Senha</label>
                         <div class="mt-2">
-                            <input id="confirmaSenha" name="confirmaSenha" type="password" autocomplete="confirmaSenha"
+                            <input id="confirmaSenha" name="confirmaSenha" type="password" autocomplete="confirmaSenha" (change)="validPassword()"
                                 [(ngModel)]="confirmaSenha" ngModel required minlength="6" #confirmaSenhaInput="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="formError && confirmaSenhaInput.invalid">

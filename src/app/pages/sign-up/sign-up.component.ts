@@ -17,7 +17,7 @@ export class SignUpComponent {
   signupError = false;
   senha = '';
   confirmaSenha = '';
-  senhasIguais = false;
+  senhasIguais = true;
   endereco = {
     cidade: '',
     estado: '',
@@ -84,7 +84,7 @@ export class SignUpComponent {
   }
 
   validForm(form: any): boolean {
-    if (form.valid) {
+    if (form.valid && this.senhasIguais) {
       this.formError = false;
       return true;
     } else {
@@ -95,11 +95,13 @@ export class SignUpComponent {
   }
 
   validPassword() {
+    if (this.senha == '' || this.confirmaSenha == '') return;
+
     if (this.senha === this.confirmaSenha) {
-      return this.senhasIguais = true;
+      this.senhasIguais = true;
     }
     else {
-      return this.senhasIguais = false;
+      this.senhasIguais = false;
     }
   }
 }
