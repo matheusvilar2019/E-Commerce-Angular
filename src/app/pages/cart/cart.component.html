@@ -10,17 +10,17 @@
 
     <!-- Product Cards -->
     <div class="flex flex-col divide-y divide-gray-200 border-t border-b border-gray-200 w-[710px]">
-        <div class="flex py-10" *ngFor="let product of cartProducts">
+        <div class="flex py-10" *ngFor="let item of cartItems">
             <div class="size-48">
-                <img class="w-48 h-48" src="{{product.image}}">
+                <img class="w-48 h-48" src="{{item.product.image}}">
             </div>
             <div class="ml-6 w-56 h-48 flex flex-col">
-                <p class="font-medium text-gray-700">{{product.name}}</p>
+                <p class="font-medium text-gray-700">{{item.product.name}}</p>
                 <div class="flex divide-x divide-gray-300">
                     <p class="text-gray-600 pr-4">Siena</p>
                     <p class="text-gray-600 pl-4">Large</p>
                 </div>
-                <p class="font-medium text-gray-900">{{product.price | currency: 'BRL'}}</p>
+                <p class="font-medium text-gray-900">{{item.product.price | currency: 'BRL'}}</p>
                 <div class="mt-auto flex">
                     <svg class="w-5 mr-2" viewBox="0 0 20 20" fill="#00C950" aria-hidden="true" data-slot="icon">
                         <path
@@ -32,7 +32,7 @@
             </div>            
             <div class="ml-auto flex items-start">
                 <div class="mr-40">
-                    <select class="w-[70px] h-[40px] font-medium border border-gray-300 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 p-2.5 text-gray-700" [value]="[product.quantidade]" (change)="updateAmount(product.id, $event)">
+                    <select class="w-[70px] h-[40px] font-medium border border-gray-300 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 p-2.5 text-gray-700" [value]="[item.quantity]" (change)="updateQuantity(item.product.id, $event)">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -40,7 +40,7 @@
                         <option value="5">5</option>
                     </select>                    
                 </div>
-                <button type="button" (click)="removeProduct(product.id)">
+                <button type="button" (click)="removeItem(item.product.id)">
                     <svg class="w-5 hover:fill-[#6A7282]" viewbox="0 0 20 20" fill="#8F95A1" aria-hidden="true" data-slot="icon">
                         <path
                             d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z">
