@@ -40,7 +40,7 @@
                         <option value="5">5</option>
                     </select>                    
                 </div>
-                <button type="button" (click)="removeItem(item.product.id)">
+                <button type="button" (click)="removeItem(item.id)">
                     <svg class="w-5 hover:fill-[#6A7282]" viewbox="0 0 20 20" fill="#8F95A1" aria-hidden="true" data-slot="icon">
                         <path
                             d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z">
@@ -72,7 +72,7 @@
                 <p class="text-lg font-medium text-gray-900">{{orderTotal | currency: 'BRL'}}</p>
             </div>
         </div>
-        <button type="submit"
+        <button type="submit" (click)="submit()"
             class="w-full bg-indigo-600 px-6 py-3 rounded-md text-base font-medium text-white shadow-xs hover:bg-indigo-700 mt-auto focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Checkout</button>
     </div>
 

@@ -38,7 +38,7 @@ export class ProductComponent {
     var cart = cookie ? JSON.parse(cookie) : [];
     const addProduct = {      
       quantity: 1,
-      Product: {
+      product: {
         id: this.product.id,
         name: this.product.name,
         price: this.product.price,
@@ -53,9 +53,10 @@ export class ProductComponent {
     }
     else {
       var addnew: Boolean = true;
+      console.log(cart);  
       // Is this product already is in the array?
-      cart.forEach((x: { Product: any; id: any; quantity: number; }) => {
-        if (x.Product.id == addProduct.Product.id) {
+      cart.forEach((x: { product: any; id: any; quantity: number; }) => {
+        if (x.product.id == addProduct.product.id) {
           x.quantity++;
           addnew = false;
         }
