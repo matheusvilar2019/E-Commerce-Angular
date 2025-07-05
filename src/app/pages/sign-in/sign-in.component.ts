@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class SignInComponent {
   formError = false;
   passwordError = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   submit(form: any) {
     if (!this.validForm(form)) return;
@@ -32,6 +32,7 @@ export class SignInComponent {
       (data) => {
         localStorage.setItem('token', data.data);
         this.passwordError = false;
+        this.router.navigate(['/']);
       },
       (error) => {
         console.error("Ocorreu um erro ao logar", error);

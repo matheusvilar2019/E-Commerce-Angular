@@ -34,16 +34,18 @@ export class ProductComponent {
   }
 
   salvarNoCarrinho() {
-    const cookie = this.cookieService.get('carrinho');
+    const cookie = this.cookieService.get('cart');
     var cart = cookie ? JSON.parse(cookie) : [];
-    const addProduct = {
-      id: this.product.id,
-      name: this.product.name,
-      price: this.product.price,
-      description: this.product.description,
-      slug: this.product.slug,
-      image: this.product.image,
-      quantidade: 1
+    const addProduct = {      
+      quantity: 1,
+      product: {
+        id: this.product.id,
+        name: this.product.name,
+        price: this.product.price,
+        description: this.product.description,
+        slug: this.product.slug,
+        image: this.product.image
+      }
     };
 
     if (!cart || cart.length === 0) {
@@ -51,17 +53,18 @@ export class ProductComponent {
     }
     else {
       var addnew: Boolean = true;
+      console.log(cart);  
       // Is this product already is in the array?
-      cart.forEach((x: { id: any; quantidade: number; }) => {
-        if (x.id == addProduct.id) {
-          x.quantidade++;
+      cart.forEach((x: { product: any; id: any; quantity: number; }) => {
+        if (x.product.id == addProduct.product.id) {
+          x.quantity++;
           addnew = false;
-        } 
+        }
       });
       if (addnew) cart.push(addProduct);
     }
 
-    this.cookieService.set('carrinho', JSON.stringify(cart), {
+    this.cookieService.set('cart', JSON.stringify(cart), {
       expires: 7, // dias
       path: '/',
       sameSite: 'Lax'
@@ -71,12 +74,12 @@ export class ProductComponent {
   }
 
   lerCarrinho() {
-    const cookie = this.cookieService.get('carrinho');
+    const cookie = this.cookieService.get('cart');
     const carrinho = cookie ? JSON.parse(cookie) : [];
     console.log(carrinho);
   }
 
   limparCarrinho() {
-    this.cookieService.delete('carrinho', '/');
+    this.cookieService.delete('cart', '/');
   }
 }
