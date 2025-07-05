@@ -18,11 +18,12 @@ export interface JwtPayload {
 
 export class HeaderComponent {
   cartItems: any[] = [];
+  cartItemsLength: number = 0;
 
   constructor(private cookieService: CookieService, private cartService: CartService) {}  
 
   ngOnInit() {
-    this.loadCart();
+    this.loadCart();    
   }
 
   loadCart() {
@@ -30,7 +31,7 @@ export class HeaderComponent {
       this.getByAPI(this.getUserId());
     }
     else {
-      this.cartItems = this.getCookie() ? JSON.parse(this.getCookie()) : [];
+      this.cartItemsLength = this.getCookie() ? JSON.parse(this.getCookie()).length : 0;
     }
   }
 
@@ -38,6 +39,7 @@ export class HeaderComponent {
     this.cartService.getCartItems(userId).subscribe(
       (data) => {
         this.cartItems = data.data.items;
+        this.cartItemsLength = data.data.items.length;
       }, (error) => {
         console.log("Ocorreu um erro ao buscar os items", error);
       }
@@ -46,7 +48,6 @@ export class HeaderComponent {
   
   getUserId(): string | null {
       var token: string | null = this.getToken();
-      console.log('token: ' + token);
       if (!token) return null;
       try {
         const decoded = jwtDecode<JwtPayload>(token);
@@ -62,6 +63,6 @@ export class HeaderComponent {
   }  
 
   getCookie(): any {
-    return this.cookieService.get('carrinho');
+    return this.cookieService.get('cart');
   }
 }

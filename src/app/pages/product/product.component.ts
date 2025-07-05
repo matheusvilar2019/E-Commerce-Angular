@@ -34,7 +34,7 @@ export class ProductComponent {
   }
 
   salvarNoCarrinho() {
-    const cookie = this.cookieService.get('carrinho');
+    const cookie = this.cookieService.get('cart');
     var cart = cookie ? JSON.parse(cookie) : [];
     const addProduct = {      
       quantity: 1,
@@ -64,7 +64,7 @@ export class ProductComponent {
       if (addnew) cart.push(addProduct);
     }
 
-    this.cookieService.set('carrinho', JSON.stringify(cart), {
+    this.cookieService.set('cart', JSON.stringify(cart), {
       expires: 7, // dias
       path: '/',
       sameSite: 'Lax'
@@ -74,12 +74,12 @@ export class ProductComponent {
   }
 
   lerCarrinho() {
-    const cookie = this.cookieService.get('carrinho');
+    const cookie = this.cookieService.get('cart');
     const carrinho = cookie ? JSON.parse(cookie) : [];
     console.log(carrinho);
   }
 
   limparCarrinho() {
-    this.cookieService.delete('carrinho', '/');
+    this.cookieService.delete('cart', '/');
   }
 }

@@ -24,7 +24,7 @@ export class CartService {
     return this.http.post(this.urlApi + '/items/user/' + userId, items);
   }
 
-  deleteCartItem(itemId: number | null): Observable<any> {
-    return this.http.delete(this.urlApi + '/items/' + itemId);
+  deleteCartItem(itemId: number | null, userId: number | null): Observable<any> {
+    return this.http.delete(this.urlApi + '/user/' + userId + '/items/' + itemId);
   }
 }

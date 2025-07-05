@@ -50,7 +50,7 @@ export class CartComponent {
         if (this.addCookieItems()) this.postAllItems();
         this.loadPrices();
       }, (error) => {
-        console.log("Ocorreu um erro ao buscar os items", error);
+        console.error("Ocorreu um erro ao buscar os items", error);
       }
     );
   }
@@ -91,7 +91,6 @@ export class CartComponent {
 
   getUserId(): string | null {
     var token: string | null = this.getToken();
-    console.log('token: ' + token);
     if (!token) return null;
     try {
       const decoded = jwtDecode<JwtPayload>(token);
@@ -103,15 +102,16 @@ export class CartComponent {
   }
 
   getCookie(): any {
-    return this.cookieService.get('carrinho');
+    return this.cookieService.get('cart');
   }
 
   deleteCookie() {
-    this.cookieService.delete('carrinho');
+    this.cookieService.delete('cart');
   }
 
   submit() {
     if (this.getToken()) {
+      // implement
       console.log("Checkout done!");
     }
     else {
@@ -145,8 +145,8 @@ export class CartComponent {
     }
   }
 
-  deleteItem(id: number) {
-    this.cartService.deleteCartItem(id).subscribe();
+  deleteItem(itemId: number) {
+    this.cartService.deleteCartItem(itemId, Number(this.getUserId())).subscribe();
   }
 
   updateQuantity(id: number, event: Event) {
@@ -166,7 +166,7 @@ export class CartComponent {
   }
 
   updateCookie() {
-    this.cookieService.set('carrinho', JSON.stringify(this.cartItems), {
+    this.cookieService.set('cart', JSON.stringify(this.cartItems), {
       expires: 7, // dias
       path: '/',
       sameSite: 'Lax'
