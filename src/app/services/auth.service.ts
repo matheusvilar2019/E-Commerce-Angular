@@ -17,8 +17,16 @@ interface CreateAccountRequest {
   email: string,
   password: string,
   cpf: string,
-  cep: number,
-  address: string
+  birthDate: Date,
+  address: {
+    ZipCode: number,
+    Street: string,
+    Number: string,
+    AddressLine2: string,
+    District: string,
+    State: string,
+    City: string
+  }
 }
 
 @Injectable({

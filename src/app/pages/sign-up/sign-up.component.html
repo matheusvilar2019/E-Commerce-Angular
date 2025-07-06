@@ -34,7 +34,7 @@
                                     obrigatório</small>
                                 <small *ngIf="email.errors?.['minlength']" class="text-[#BF1322]">Mínimo 10
                                     caracteres</small>
-                                
+
                             </div>
                             <div *ngIf="this.emailAlreadyExists">
                                 <small class="text-[#BF1322]">E-mail já cadastrado</small>
@@ -82,34 +82,45 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="pais" class="block text-sm/6 font-medium text-gray-900">País</label>
-                        <div class="mt-2 grid grid-cols-1">
-                            <select id="pais" name="pais" autocomplete="pais"
-                                class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                <option>Brasil</option>
-                                <option>United States</option>
-                                <option>Canada</option>
-                                <option>Mexico</option>
-                            </select>
-                            <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                                viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd"
-                                    d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                        <label for="cpf" class="block text-sm/6 font-medium text-gray-900">CPF</label>
+                        <div class="mt-2">
+                            <input type="text" name="cpf" id="cpf" autocomplete="cpf" ngModel required minlength="11"
+                                #cpf="ngModel"
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            <div *ngIf="(formError && cpf.invalid)">
+                                <small *ngIf="cpf.errors?.['required']" class="text-[#BF1322]">CPF é
+                                    obrigatório</small>
+                                <small *ngIf="cpf.errors?.['minlength']" class="text-[#BF1322]">Mínimo 11
+                                    caracteres</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label for="birthDate" class="block text-sm/6 font-medium text-gray-900">Data de Nascimento</label>
+                        <div class="mt-2">
+                            <input id="birthDate" name="birthDate" type="date" autocomplete="birthDate" ngModel required
+                                minlength="8" #birthDate="ngModel"
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            <div *ngIf="(formError && birthDate.invalid)">
+                                <small *ngIf="birthDate.errors?.['required']" class="text-[#BF1322]">Data de nascimento é
+                                    obrigatória</small>
+                                <small *ngIf="birthDate.errors?.['minlength']" class="text-[#BF1322]">Mínimo 8
+                                    caracteres</small>
+                            </div>
                         </div>
                     </div>
 
                     <div class="sm:col-span-2 sm:col-start-1">
-                        <label for="cep" class="block text-sm/6 font-medium text-gray-900">CEP</label>
+                        <label for="zipCode" class="block text-sm/6 font-medium text-gray-900">CEP</label>
                         <div class="mt-2">
-                            <input type="text" name="cep" id="cep" autocomplete="cep" ngModel required minlength="8"
-                                #cep="ngModel" (change)="cepData(cep.viewModel)"
+                            <input type="text" name="zipCode" id="zipCode" autocomplete="zipCode" ngModel required
+                                minlength="8" #zipCode="ngModel" (change)="zipCodeData(zipCode.viewModel)"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formError && cep.invalid)">
-                                <small *ngIf="cep.errors?.['required']" class="text-[#BF1322]">CEP é
+                            <div *ngIf="(formError && zipCode.invalid)">
+                                <small *ngIf="zipCode.errors?.['required']" class="text-[#BF1322]">CEP é
                                     obrigatório</small>
-                                <small *ngIf="cep.errors?.['minlength']" class="text-[#BF1322]">Mínimo 8
+                                <small *ngIf="zipCode.errors?.['minlength']" class="text-[#BF1322]">Mínimo 8
                                     caracteres</small>
                             </div>
                         </div>
@@ -119,7 +130,7 @@
                         <label for="state" class="block text-sm/6 font-medium text-gray-900">Estado</label>
                         <div class="mt-2">
                             <input type="text" name="state" id="state" autocomplete="state" ngModel required
-                                [(ngModel)]="endereco.estado" minlength="6" #estado="ngModel"
+                                [(ngModel)]="address.state" minlength="6" #estado="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && estado.invalid)">
                                 <small *ngIf="estado.errors?.['required']" class="text-[#BF1322]">Estado é
@@ -134,7 +145,7 @@
                         <label for="city" class="block text-sm/6 font-medium text-gray-900">Cidade</label>
                         <div class="mt-2">
                             <input type="text" name="city" id="city" autocomplete="address-level2" ngModel required
-                                [(ngModel)]="endereco.cidade" minlength="3" #cidade="ngModel"
+                                [(ngModel)]="address.city" minlength="3" #cidade="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && cidade.invalid)">
                                 <small *ngIf="cidade.errors?.['required']" class="text-[#BF1322]">Cidade é
@@ -149,7 +160,7 @@
                         <label for="street-address" class="block text-sm/6 font-medium text-gray-900">Logradouro</label>
                         <div class="mt-2">
                             <input type="text" name="street-address" id="street-address" autocomplete="street-address"
-                                ngModel required minlength="6" #logradouro="ngModel" [(ngModel)]="endereco.logradouro"
+                                ngModel required minlength="6" #logradouro="ngModel" [(ngModel)]="address.street"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && logradouro.invalid)">
                                 <small *ngIf="logradouro.errors?.['required']" class="text-[#BF1322]">Logradouro é
@@ -161,17 +172,40 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="street-address" class="block text-sm/6 font-medium text-gray-900">Bairro</label>
+                        <label for="district" class="block text-sm/6 font-medium text-gray-900">Bairro</label>
                         <div class="mt-2">
-                            <input type="text" name="bairro" id="bairro" autocomplete="bairro" ngModel required
-                                minlength="3" #bairro="ngModel" [(ngModel)]="endereco.bairro"
+                            <input type="text" name="district" id="district" autocomplete="district" ngModel required
+                                minlength="3" #district="ngModel" [(ngModel)]="address.district"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-                            <div *ngIf="(formError && bairro.invalid)">
-                                <small *ngIf="bairro.errors?.['required']" class="text-[#BF1322]">Bairro é
+                            <div *ngIf="(formError && district.invalid)">
+                                <small *ngIf="district.errors?.['required']" class="text-[#BF1322]">Bairro é
                                     obrigatório</small>
-                                <small *ngIf="bairro.errors?.['minlength']" class="text-[#BF1322]">Mínimo 3
+                                <small *ngIf="district.errors?.['minlength']" class="text-[#BF1322]">Mínimo 3
                                     caracteres</small>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-3 sm:col-start-1">
+                        <label for="number" class="block text-sm/6 font-medium text-gray-900">Número</label>
+                        <div class="mt-2">
+                            <input type="text" name="number" id="number" autocomplete="number" ngModel required
+                                #number="ngModel" [(ngModel)]="address.number"
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            <div *ngIf="(formError && number.invalid)">
+                                <small *ngIf="number.errors?.['required']" class="text-[#BF1322]">Número é
+                                    obrigatório</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label for="addressLine2-address"
+                            class="block text-sm/6 font-medium text-gray-900">Complemento</label>
+                        <div class="mt-2">
+                            <input type="text" name="addressLine2" id="addressLine2" autocomplete="addressLine2" ngModel
+                                required #addressLine2="ngModel" [(ngModel)]="address.addressLine2"
+                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                         </div>
                     </div>
                 </div>
