@@ -15,6 +15,7 @@ import { ViaCepService } from 'src/app/services/via-cep.service';
 })
 export class SignUpComponent {
   returnUrl: string = '/';
+  emailAlreadyExists: boolean = false;
   formError = false;
   signupError = false;
   senha = '';
@@ -90,7 +91,7 @@ export class SignUpComponent {
   }
 
   validForm(form: any): boolean {
-    if (form.valid && this.senhasIguais) {
+    if (form.valid && this.senhasIguais && !this.emailAlreadyExists) {
       this.formError = false;
       return true;
     } else {
@@ -109,5 +110,16 @@ export class SignUpComponent {
     else {
       this.senhasIguais = false;
     }
+  }
+
+  emailExists(email: string) {
+    this.authService.emailExists(email).subscribe(
+      (data) => {
+        this.emailAlreadyExists = Boolean(data);
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
   }
 }

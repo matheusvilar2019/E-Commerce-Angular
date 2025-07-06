@@ -25,7 +25,7 @@ interface CreateAccountRequest {
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = "https://localhost:7239/v1/accounts";
+  apiUrl = 'https://localhost:7239/v1/accounts';
 
   constructor(private http: HttpClient) { }
 
@@ -35,5 +35,9 @@ export class AuthService {
 
   createAccount(userData: CreateAccountRequest): Observable<any> {
     return this.http.post(this.apiUrl, userData);
+  }
+
+  emailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>('https://localhost:7239/v1/emailExists/' + email);
   }
 }

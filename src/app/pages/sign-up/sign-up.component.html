@@ -27,13 +27,17 @@
                         <label for="email" class="block text-sm/6 font-medium text-gray-900">E-mail</label>
                         <div class="mt-2">
                             <input id="email" name="email" type="email" autocomplete="email" ngModel required
-                                minlength="10" #email="ngModel"
+                                minlength="10" #email="ngModel" (change)="this.emailExists(email.viewModel)"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && email.invalid)">
                                 <small *ngIf="email.errors?.['required']" class="text-[#BF1322]">E-mail é
                                     obrigatório</small>
                                 <small *ngIf="email.errors?.['minlength']" class="text-[#BF1322]">Mínimo 10
                                     caracteres</small>
+                                
+                            </div>
+                            <div *ngIf="this.emailAlreadyExists">
+                                <small class="text-[#BF1322]">E-mail já cadastrado</small>
                             </div>
                         </div>
                     </div>
@@ -41,8 +45,8 @@
                     <div class="sm:col-span-3">
                         <label for="senha" class="block text-sm/6 font-medium text-gray-900">Senha</label>
                         <div class="mt-2">
-                            <input id="senha" name="senha" type="password" autocomplete="senha" ngModel required (change)="validPassword()"
-                                [(ngModel)]="senha" minlength="6" #senhaInput="ngModel"
+                            <input id="senha" name="senha" type="password" autocomplete="senha" ngModel required
+                                (change)="validPassword()" [(ngModel)]="senha" minlength="6" #senhaInput="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && senhaInput.invalid)">
                                 <small *ngIf="senhaInput.errors?.['required']" class="text-[#BF1322]">Senha é
@@ -60,11 +64,13 @@
                         <label for="confirmaSenha" class="block text-sm/6 font-medium text-gray-900">Confirme a
                             Senha</label>
                         <div class="mt-2">
-                            <input id="confirmaSenha" name="confirmaSenha" type="password" autocomplete="confirmaSenha" (change)="validPassword()"
-                                [(ngModel)]="confirmaSenha" ngModel required minlength="6" #confirmaSenhaInput="ngModel"
+                            <input id="confirmaSenha" name="confirmaSenha" type="password" autocomplete="confirmaSenha"
+                                (change)="validPassword()" [(ngModel)]="confirmaSenha" ngModel required minlength="6"
+                                #confirmaSenhaInput="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="formError && confirmaSenhaInput.invalid">
-                                <small *ngIf="confirmaSenhaInput.errors?.['required']" class="text-[#BF1322]">Confirmação da senha é
+                                <small *ngIf="confirmaSenhaInput.errors?.['required']"
+                                    class="text-[#BF1322]">Confirmação da senha é
                                     obrigatória</small>
                                 <small *ngIf="confirmaSenhaInput.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
                                     caracteres</small>
@@ -97,8 +103,8 @@
                     <div class="sm:col-span-2 sm:col-start-1">
                         <label for="cep" class="block text-sm/6 font-medium text-gray-900">CEP</label>
                         <div class="mt-2">
-                            <input type="text" name="cep" id="cep" autocomplete="cep" ngModel
-                                required minlength="8" #cep="ngModel" (change)="cepData(cep.viewModel)"
+                            <input type="text" name="cep" id="cep" autocomplete="cep" ngModel required minlength="8"
+                                #cep="ngModel" (change)="cepData(cep.viewModel)"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && cep.invalid)">
                                 <small *ngIf="cep.errors?.['required']" class="text-[#BF1322]">CEP é
@@ -112,8 +118,8 @@
                     <div class="sm:col-span-2">
                         <label for="state" class="block text-sm/6 font-medium text-gray-900">Estado</label>
                         <div class="mt-2">
-                            <input type="text" name="state" id="state" autocomplete="state" ngModel required [(ngModel)]="endereco.estado"
-                                minlength="6" #estado="ngModel"
+                            <input type="text" name="state" id="state" autocomplete="state" ngModel required
+                                [(ngModel)]="endereco.estado" minlength="6" #estado="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && estado.invalid)">
                                 <small *ngIf="estado.errors?.['required']" class="text-[#BF1322]">Estado é
@@ -127,8 +133,8 @@
                     <div class="sm:col-span-2">
                         <label for="city" class="block text-sm/6 font-medium text-gray-900">Cidade</label>
                         <div class="mt-2">
-                            <input type="text" name="city" id="city" autocomplete="address-level2" ngModel required [(ngModel)]="endereco.cidade"
-                                minlength="3" #cidade="ngModel"
+                            <input type="text" name="city" id="city" autocomplete="address-level2" ngModel required
+                                [(ngModel)]="endereco.cidade" minlength="3" #cidade="ngModel"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && cidade.invalid)">
                                 <small *ngIf="cidade.errors?.['required']" class="text-[#BF1322]">Cidade é
@@ -153,12 +159,12 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="sm:col-span-3">
                         <label for="street-address" class="block text-sm/6 font-medium text-gray-900">Bairro</label>
                         <div class="mt-2">
-                            <input type="text" name="bairro" id="bairro" autocomplete="bairro"
-                                ngModel required minlength="3" #bairro="ngModel" [(ngModel)]="endereco.bairro"
+                            <input type="text" name="bairro" id="bairro" autocomplete="bairro" ngModel required
+                                minlength="3" #bairro="ngModel" [(ngModel)]="endereco.bairro"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                             <div *ngIf="(formError && bairro.invalid)">
                                 <small *ngIf="bairro.errors?.['required']" class="text-[#BF1322]">Bairro é
