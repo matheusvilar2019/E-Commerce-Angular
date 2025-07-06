@@ -35,6 +35,7 @@ export class CartComponent {
 
   loadCart() {
     if (this.getToken()) {
+      console.log("loadcart if gettoken()")
       this.getByAPI(this.getUserId());
     }
     else {
@@ -139,13 +140,14 @@ export class CartComponent {
     this.loadPrices();
     
     if (this.getToken()) {
-      this.deleteItem(id);
+      this.deleteItemAPI(id);
+      this.cookieService.delete('cartAPI');
     } else {
       this.updateCookie();
     }
   }
 
-  deleteItem(itemId: number) {
+  deleteItemAPI(itemId: number) {
     this.cartService.deleteCartItem(itemId, Number(this.getUserId())).subscribe();
   }
 
@@ -160,6 +162,7 @@ export class CartComponent {
     
     if (this.getToken()) {
       this.postAllItems();
+      this.cookieService.delete('cartAPI');
     } else {
       this.updateCookie();
     }

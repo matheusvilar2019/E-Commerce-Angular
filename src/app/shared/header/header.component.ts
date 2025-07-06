@@ -30,6 +30,10 @@ export class HeaderComponent {
 
   loadCart() {
     if (this.getToken()) {
+      if (this.getCookieAPI()) {
+        this.cartItemsLength = this.getCookieAPI() ? JSON.parse(this.getCookieAPI()).length : 0;
+        return;
+      }
       this.getByAPI(this.getUserId());
     }
     else {
@@ -42,6 +46,7 @@ export class HeaderComponent {
       (data) => {
         this.cartItems = data.data.items;
         this.cartItemsLength = data.data.items.length;
+        this.cookieService.set('cartAPI', JSON.stringify(this.cartItems));
       }, (error) => {
         console.log("Ocorreu um erro ao buscar os items", error);
       }
@@ -78,6 +83,10 @@ export class HeaderComponent {
 
   getCookie(): any {
     return this.cookieService.get('cart');
+  }
+
+  getCookieAPI(): any {
+    return this.cookieService.get('cartAPI');
   }
 
   loggout() {
