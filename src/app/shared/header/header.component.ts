@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { CartService } from 'src/app/services/cart.service';
 
 export interface JwtPayload {
-  unique_name: string;
+  nameid: string;
+  firstName: string;
   exp: number;
   nbf: number;
   iat: number;
@@ -20,10 +22,10 @@ export class HeaderComponent {
   cartItems: any[] = [];
   cartItemsLength: number = 0;
 
-  constructor(private cookieService: CookieService, private cartService: CartService) {}  
+  constructor(private cookieService: CookieService, private cartService: CartService, private router: Router) { }
 
   ngOnInit() {
-    this.loadCart();    
+    this.loadCart();
   }
 
   loadCart() {
@@ -45,24 +47,50 @@ export class HeaderComponent {
       }
     );
   }
-  
+
   getUserId(): string | null {
-      var token: string | null = this.getToken();
-      if (!token) return null;
-      try {
-        const decoded = jwtDecode<JwtPayload>(token);
-        return decoded.unique_name;
-      } catch (err) {
-        console.error('Erro ao decodificar o token JWT', err);
-        return null;
-      }
+    var token: string | null = this.getToken();
+    if (!token) return null;
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      return decoded.nameid;
+    } catch (err) {
+      console.error('Erro ao decodificar o token JWT', err);
+      return null;
     }
+  }
+
+  getFirstName(): string | null {
+    var token: string | null = this.getToken();
+    if (!token) return null;
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      return decoded.firstName;
+    } catch (err) {
+      console.error('Erro ao decodificar o token JWT', err);
+      return null;
+    }
+  }
 
   getToken(): string | null {
     return localStorage.getItem('token');
-  }  
+  }
 
   getCookie(): any {
     return this.cookieService.get('cart');
+  }
+
+  loggout() {
+    localStorage.removeItem('token');
+  }
+
+  login() {
+    const currentUrl = this.router.url;
+    this.router.navigate(["/login"], { queryParams: {returnUrl: currentUrl} });
+  }
+
+  signup() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/signup'], { queryParams: {returnUrl: currentUrl} });
   }
 }

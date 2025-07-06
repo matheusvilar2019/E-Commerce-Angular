@@ -23,10 +23,15 @@
           </div>
 
           <div class="ml-auto flex items-center">
-            <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-              <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-800" [routerLink]="['/login']">Entrar</a>
+            <div *ngIf="!this.getToken()" class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+              <a class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer" (click)="this.login()">Entrar</a>
               <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
-              <a href="#" class="text-sm font-medium text-gray-700 hover:text-gray-800" [routerLink]="['/signup']">Cadastrar</a>
+              <a class="text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer" (click)="this.signup()">Cadastrar</a>
+            </div>
+            <div *ngIf="this.getToken()" class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+              <p class="text-sm font-medium text-gray-700 hover:text-gray-800">Olá, {{this.getFirstName()}}</p>
+              <span class="h-6 w-px bg-gray-200" aria-hidden="true"></span>
+              <a class="text-sm font-medium text-gray-700 hover:text-gray-800" [routerLink]="['/']" (click)="this.loggout()">Sair</a>
             </div>
 
             <div class="hidden lg:ml-8 lg:flex">

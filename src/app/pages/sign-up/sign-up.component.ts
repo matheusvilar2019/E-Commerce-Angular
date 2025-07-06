@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { empty } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ViaCepService } from 'src/app/services/via-cep.service';
@@ -13,6 +14,7 @@ import { ViaCepService } from 'src/app/services/via-cep.service';
   styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
+  returnUrl: string = '/';
   formError = false;
   signupError = false;
   senha = '';
@@ -25,7 +27,11 @@ export class SignUpComponent {
     logradouro: ''
   };
 
-  constructor(private viaCepService: ViaCepService, private authService: AuthService) { }
+  constructor(private viaCepService: ViaCepService, private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
+  }
 
   submit(form: any) {
     console.log(form.value)
@@ -49,7 +55,6 @@ export class SignUpComponent {
     this.authService.createAccount(accountData).subscribe(
       (data) => {
         console.log("Usuário criado com sucesso");
-        this.signIn(accountData);
       },
       (error) => {
         console.error("Ocorreu um erro ao criar a conta", error);
@@ -62,6 +67,7 @@ export class SignUpComponent {
       (data) => {
         console.log('Token:', data.data);
         localStorage.setItem('token', data.data);
+        this.router.navigateByUrl(this.returnUrl);
       },
       (error) => {
         console.error("Ocorreu um erro ao logar", error);
