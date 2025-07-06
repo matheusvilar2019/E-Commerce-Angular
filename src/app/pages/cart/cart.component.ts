@@ -7,7 +7,7 @@ import { empty } from 'rxjs';
 import { CartService, Items } from 'src/app/services/cart.service';
 
 export interface JwtPayload {
-  unique_name: string;
+  nameid: string;
   exp: number;
   nbf: number;
   iat: number;
@@ -94,7 +94,7 @@ export class CartComponent {
     if (!token) return null;
     try {
       const decoded = jwtDecode<JwtPayload>(token);
-      return decoded.unique_name;
+      return decoded.nameid;
     } catch (err) {
       console.error('Erro ao decodificar o token JWT', err);
       return null;
