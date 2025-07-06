@@ -75,7 +75,7 @@
                                 <small *ngIf="confirmaSenhaInput.errors?.['minlength']" class="text-[#BF1322]">Mínimo 6
                                     caracteres</small>
                             </div>
-                            <div *ngIf="formError && !senhasIguais && confirmaSenhaInput.valid">
+                            <div *ngIf="!senhasIguais">
                                 <small class="text-[#BF1322]">As senhas não coincidem</small>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                             class="block text-sm/6 font-medium text-gray-900">Complemento</label>
                         <div class="mt-2">
                             <input type="text" name="addressLine2" id="addressLine2" autocomplete="addressLine2" ngModel
-                                required #addressLine2="ngModel" [(ngModel)]="address.addressLine2"
+                                #addressLine2="ngModel" [(ngModel)]="address.addressLine2"
                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                         </div>
                     </div>
