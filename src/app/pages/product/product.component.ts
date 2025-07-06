@@ -70,6 +70,7 @@ export class ProductComponent {
       sameSite: 'Lax'
     });
 
+    this.cookieService.delete('cartAPI');
     this.router.navigate(['/cart'])
   }
 
