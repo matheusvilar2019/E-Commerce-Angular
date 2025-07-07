@@ -94,12 +94,16 @@ export class HeaderComponent {
   }
 
   login() {
-    const currentUrl = this.router.url;
-    this.router.navigate(["/login"], { queryParams: {returnUrl: currentUrl} });
+    // .split('?')[0] -> avoid url loop on parameters. 
+    // Example: loginPage -> signupPage -> loginPage = login?returnUrl=%2Fsignup%3FreturnUrl%3D%252Flogin%253FreturnUrl%253D%25252Fsignup
+    const currentUrl = this.router.url;    
+    this.router.navigate(["/login"], { queryParams: {returnUrl: currentUrl.split('?')[0]} });
   }
 
   signup() {
+    // .split('?')[0] -> avoid url loop on parameters. 
+    // Example: loginPage -> signupPage -> loginPage = login?returnUrl=%2Fsignup%3FreturnUrl%3D%252Flogin%253FreturnUrl%253D%25252Fsignup
     const currentUrl = this.router.url;
-    this.router.navigate(['/signup'], { queryParams: {returnUrl: currentUrl} });
+    this.router.navigate(['/signup'], { queryParams: {returnUrl: currentUrl.split('?')[0]} });
   }
 }
