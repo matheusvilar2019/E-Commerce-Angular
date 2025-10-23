@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { empty, Observable } from 'rxjs';
 
 export interface Items {
   productId: number;
@@ -13,6 +13,7 @@ export interface Items {
 
 export class CartService {
   private urlApi = 'https://localhost:7239/v1/carts';
+  private urlApiPayment = 'https://localhost:7239/v1/payment';
 
   constructor(private http: HttpClient) { }
 
@@ -26,5 +27,9 @@ export class CartService {
 
   deleteCartItem(itemId: number | null, userId: number | null): Observable<any> {
     return this.http.delete(this.urlApi + '/user/' + userId + '/items/' + itemId);
+  }
+
+  payCart(userId: string | null): Observable<string> {
+    return this.http.post<string>(this.urlApiPayment + '/create-checkout-session/' + userId, null);
   }
 }
