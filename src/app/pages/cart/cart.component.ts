@@ -34,8 +34,7 @@ export class CartComponent {
   }
 
   loadCart() {
-    if (this.getToken()) {
-      console.log("loadcart if gettoken()")
+    if (this.isLogged()) {
       this.getByAPI(this.getUserId());
     }
     else {
@@ -111,13 +110,23 @@ export class CartComponent {
   }
 
   submit() {
-    if (this.getToken()) {
-      // implement
-      console.log("Checkout done!");
-    }
-    else {
-      this.router.navigate(['/login'])
-    }
+    if (!this.isLogged()) this.router.navigate(['/login']);
+    if (!this.cartItems) return;
+
+    this.cartService.payCart(this.getUserId()).subscribe({
+      next: (obj: any) => {
+        //console.log(obj.url);
+        window.location.href = obj.url;
+        //this.deleteCookie();
+      },
+      error: (error) => {
+        console.error("Ocorreu um problema ao realizar o pagamento", error)
+      }
+    });
+  }
+
+  isLogged(): boolean {
+    return this.getToken() ? true : false;
   }
 
   getToken(): string | null {
