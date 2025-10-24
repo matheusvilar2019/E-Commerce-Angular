@@ -48,7 +48,7 @@ export class HeaderComponent {
         this.cartItemsLength = data.data.items.length;
         this.cookieService.set('cartAPI', JSON.stringify(this.cartItems));
       }, (error) => {
-        console.log("Ocorreu um erro ao buscar os items", error);
+        console.error("Ocorreu um erro ao buscar os items", error);
       }
     );
   }

@@ -23,7 +23,6 @@ export class ProductComponent {
     this.productService.getProduct(this.productId).subscribe(
       (data) => {
         this.product = data.data;
-        console.log(this.product);
       },
       (error) => {
         console.error('Erro ao obter dados sobre o produto', error);
@@ -53,7 +52,6 @@ export class ProductComponent {
     }
     else {
       var addnew: Boolean = true;
-      console.log(cart);  
       // Is this product already is in the array?
       cart.forEach((x: { product: any; id: any; quantity: number; }) => {
         if (x.product.id == addProduct.product.id) {
@@ -77,7 +75,6 @@ export class ProductComponent {
   lerCarrinho() {
     const cookie = this.cookieService.get('cart');
     const carrinho = cookie ? JSON.parse(cookie) : [];
-    console.log(carrinho);
   }
 
   limparCarrinho() {

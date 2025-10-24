@@ -60,7 +60,7 @@ export class SignUpComponent {
 
     this.authService.createAccount(accountData).subscribe(
       (data) => {
-        console.log("Usuário criado com sucesso");
+        alert("Usuário criado com sucesso");
       },
       (error) => {
         console.error("Ocorreu um erro ao criar a conta", error);
@@ -71,7 +71,6 @@ export class SignUpComponent {
   signIn(accountData: any) {
     this.authService.login({email: accountData.email, password: accountData.password}).subscribe(
       (data) => {
-        console.log('Token:', data.data);
         localStorage.setItem('token', data.data);
         this.router.navigateByUrl(this.returnUrl);
       },
@@ -100,9 +99,6 @@ export class SignUpComponent {
       this.formError = false;
       return true;
     } else {
-      console.log("Form inválido")
-      console.log('form valid: ' + form.valid);
-      console.log(form);
       this.formError = true;
       return false;
     }
