@@ -51,7 +51,6 @@ export class SignInComponent {
       this.formError = false;
       return true;
     } else {
-      console.log("Form inválido")
       this.formError = true;
       return false;
     }    

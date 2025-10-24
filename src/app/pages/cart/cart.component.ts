@@ -115,7 +115,6 @@ export class CartComponent {
 
     this.cartService.payCart(this.getUserId()).subscribe({
       next: (obj: any) => {
-        //console.log(obj.url);
         window.location.href = obj.url;
         //this.deleteCookie();
       },
